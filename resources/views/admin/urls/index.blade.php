@@ -22,36 +22,38 @@
                 <a type="button" href="{{route('urls.create')}}" class="btn btn-primary">Add URL</a>
             </div>
         </div>
-        <div class="tab-wrapper">
-            <div class="card">
-                <div class="card-body">
-                    @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
+            <div class="tab-wrapper">
+                <div class="card">
+                    <div class="card-body">
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                        @endif
+                        <table class="table table-bordered" id="basic-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Short Url</th>
+                                    <th>Long Url</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($urls as $key => $url)
+                                <tr>
+                                    <td>{{ ++$i }}</td>
+                                    <td>{{ url('/') . '/' . $url->code }}</td>
+                                    <td>{{ $url->link }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    @endif
-                    <table class="table table-bordered" id="basic-data-table">
-                        <thead>
-                            <tr>
-                                <th>Sr No</th>
-                                <th>Short Url</th>
-                                <th>Long Url</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($urls as $key => $url)
-                            <tr>
-                                <td>{{ ++$i }}</td>
-                                <td>{{ url('/') . '/' . $url->code }}</td>
-                                <td>{{ $url->link }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="mx-auto">
+                        {{ $urls->links("pagination::bootstrap-4") }}
+                    </div>
                 </div>
-                {{ $urls->links() }}
             </div>
-        </div>
     </div>
 </div>
 @endsection
