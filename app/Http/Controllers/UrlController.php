@@ -45,21 +45,31 @@ class UrlController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreUrlRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUrlRequest $request)
     {
         $validated = $request->validated();
-        // dd($validated);
-        // convert the url into shortcode and save it in db
         $urls = $this->url->create($validated);
 
-
-
-
-        $urls = $this->url->all();
         return redirect()->route('urls.index')
             ->with('success', 'Url Added successfully');
+    }
+
+    /**
+     * Find a long url from shortcode.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function findLongUrl($shortCode)
+    {
+        $url = $this->url->findLongUrl($shortCode);
+
+        if ($url)
+            return \Redirect::to($url->link);
+        else
+            return redirect()->route('urls.index');         //Redirect to not found link
     }
 }

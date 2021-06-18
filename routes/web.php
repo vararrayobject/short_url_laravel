@@ -24,3 +24,5 @@ Route::group(['middleware' => ['auth'], 'namespace' => '\App\Http\Controllers'],
     Route::get('urls/create', 'UrlController@create')->name('urls.create');
     Route::post('urls', 'UrlController@store')->name('urls.store');
 });
+
+Route::get('/{shortCode}', 'UrlController@findLongUrl')->name('urls.findLongUrl');

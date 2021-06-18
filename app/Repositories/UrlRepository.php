@@ -9,11 +9,13 @@
 
 namespace App\Repositories;
 
+use App\Http\Traits\UrlTrait;
 use App\Models\Url;
 use App\Repositories\Interfaces\UrlRepositoryInterface;
 
 class UrlRepository implements UrlRepositoryInterface
 {
+    use UrlTrait;
 
     private $model;
 
@@ -31,8 +33,24 @@ class UrlRepository implements UrlRepositoryInterface
 
     public function create($url)
     {
-        // Generate Code
-        return $this->model->create();
+        $randNum = mt_rand(100000000000, 999999999999);
+        $shortCode = $this->generateShortCode($randNum);
+        return $this->model->create(['id' => $randNum, 'code' => $shortCode, 'link' => $url['url']]);
     }
 
+    public function generateShortCode($randNum)
+    {
+        $shortCode = $this->int2Radix64($randNum);
+        $checkShortCode = Url::whereCode($shortCode)->first();
+        if($checkShortCode)
+            $this->generateShortCode();
+        else
+            return $shortCode;
+    }
+
+    public function findLongUrl($str)
+    {
+        $id = $this->radix64ToInt($str);
+        return Url::find($id);
+    }
 }
