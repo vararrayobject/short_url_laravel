@@ -34,7 +34,7 @@
                         <thead>
                             <tr>
                                 <th>Sr No</th>
-                                <th>Short Code</th>
+                                <th>Short Url</th>
                                 <th>Long Url</th>
                             </tr>
                         </thead>
@@ -42,7 +42,7 @@
                             @foreach ($urls as $key => $url)
                             <tr>
                                 <td>{{ ++$i }}</td>
-                                <td>{{ $url->code }}</td>
+                                <td>{{ url('/') . '/' . $url->code }}</td>
                                 <td>{{ $url->link }}</td>
                             </tr>
                             @endforeach
@@ -54,8 +54,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script src="{{asset('assets/js/custom.js')}}"></script>
 @endsection
